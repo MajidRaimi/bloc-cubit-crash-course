@@ -2,18 +2,22 @@ import 'package:bloc_crash_course/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/counter_bloc.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final counterCubit = BlocProvider.of<CounterCubit>(context);
+    final counterBloc = BlocProvider.of<CounterBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Counter App'),
         actions: [
           IconButton(
-            onPressed: counterCubit.reset,
+            onPressed: () => counterBloc.add(const CounterReset()),
             icon: const Icon(
               Icons.loop,
             ),
@@ -21,7 +25,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: counterCubit.increment,
+        onPressed: () => counterBloc.add(const CounterIncremented()),
         child: const Icon(
           Icons.add,
         ),
@@ -33,8 +37,7 @@ class HomePage extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<CounterCubit, int>(
-              bloc: counterCubit,
+            BlocBuilder<CounterBloc, int>(
               builder: (context, counter) {
                 return Text(
                   counter.toString(),
