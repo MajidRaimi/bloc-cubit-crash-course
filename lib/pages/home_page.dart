@@ -5,11 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/counter_bloc.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  // Constructor with a named parameter 'key'
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Access the CounterCubit instance from the widget tree
     final counterCubit = BlocProvider.of<CounterCubit>(context);
+    // Access the CounterBloc instance from the widget tree
     final counterBloc = BlocProvider.of<CounterBloc>(context);
 
     return Scaffold(
@@ -17,6 +20,7 @@ class HomePage extends StatelessWidget {
         title: const Text('Counter App'),
         actions: [
           IconButton(
+            // Dispatch an event to reset the counter in the CounterBloc
             onPressed: () => counterBloc.add(const CounterReset()),
             icon: const Icon(
               Icons.loop,
@@ -25,6 +29,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        // Dispatch an event to increment the counter in the CounterBloc
         onPressed: () => counterBloc.add(const CounterIncremented()),
         child: const Icon(
           Icons.add,
@@ -37,6 +42,7 @@ class HomePage extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
+            // Use BlocBuilder to rebuild the UI when the counter state changes
             BlocBuilder<CounterBloc, int>(
               builder: (context, counter) {
                 return Text(
